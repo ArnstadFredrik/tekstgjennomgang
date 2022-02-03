@@ -1,0 +1,48 @@
+{
+	"name": "tekstgjennomgang",
+	"description": "Ordner filer og info for tekstgjennomgang av søndagens tekst ved VID",
+	"version": "0.0.1",
+	"license": "UNLICENSED",
+	"type": "module",
+	"bin": {
+		"tekstgjennomgang": "index.js"
+	},
+	"author": {
+		"name": "Fredrik Arnstad",
+		"email": "fredrik.arnstad@icloud.com",
+		"url": "github.com/ArnstadFredrik"
+	},
+	"keywords": [
+		"tekstgjennomgang",
+		"Fredrik Arnstad"
+	],
+	"files": [
+		"index.js",
+		"utils"
+	],
+	"scripts": {
+		"format": "prettier --write \"./**/*.{js,json}\""
+	},
+	"dependencies": {
+		"axios": "^0.25.0",
+		"chalk": "^5.0.0",
+		"clear-any-console": "^1.16.2",
+		"cli-alerts": "^1.2.2",
+		"cli-handle-error": "^4.4.0",
+		"cli-handle-unhandled": "^1.1.1",
+		"cli-meow-help": "^2.0.2",
+		"cli-welcome": "^2.2.2",
+		"encodeurl": "^1.0.2",
+		"figures": "^4.0.0",
+		"fs-extra": "^10.0.0",
+		"globby": "^13.1.0",
+		"inquirer": "^8.2.0",
+		"meow": "^9.0.0",
+		"nanospinner": "^1.0.0",
+		"node-cmd": "^5.0.0",
+		"pkg-dir": "^6.0.1"
+	},
+	"devDependencies": {
+		"prettier": "^2.5.1"
+	}
+}
