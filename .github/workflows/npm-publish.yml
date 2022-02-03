@@ -1,0 +1,61 @@
+name: NPM Publish
+
+on: 
+  push:
+    branches: main
+
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.package_version.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Bump Node Package Version
+        id: package_version
+        uses: KageKirin/bump-node-package-version@v0.0.1
+        with:
+          patch: true
+      
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ steps.package_version.outputs.version }}
+          name: Release ${{ steps.package_version.outputs.version }}
+          body: ${{ steps.package_version.outputs.changelog }}
+
+      - name: Commit
+        uses: stefanzweifel/git-auto-commit-action@v4.13.1
+        with:
+          commit_message: "CI: bump package.json to ${{ steps.package_version.outputs.version}}"
+
+  publish:
+    needs: bump
+    runs-on: ubuntu-latest
+    steps:
+      - name: Version
+        id: version
+        run: "echo ::set-output name=version::$(echo ${{ needs.bump.outputs.version }} | sed 's/^v//')"
+
+      - uses: actions/checkout@v2
+        with:
+          ref: 'main'
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 17
+
+      - run: npm install
+
+      - uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+
+      - name: Notify Discord
+        uses: fateyan/action-discord-notifier@v1
+        with:
+          message-title:  church-year:${{ steps.version.outputs.version}} published to npm
+          webhook: ${{ secrets.DISCORD}}
